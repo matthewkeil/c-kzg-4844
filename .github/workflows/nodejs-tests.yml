@@ -29,5 +29,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node}}
+      - name: Install node dependencies
+        working-directory: bindings/node.js
+        run: npm install --ignore-scripts
+      - name: Build dist bundle
+        working-directory: bindings/node.js
+        run: make bundle
       - name: Run clean/build/format/test
-        run: cd bindings/node.js; make
+        working-directory: bindings/node.js/dist
+        run: npm install
