@@ -31,7 +31,7 @@ jobs:
           node-version: ${{matrix.node}}
       - name: Install node dependencies
         working-directory: bindings/node.js
-        run: npm install --ignore-scripts
+        run: npm i --ignore-scripts
       - name: Build dist bundle
         working-directory: bindings/node.js
         run: make bundle

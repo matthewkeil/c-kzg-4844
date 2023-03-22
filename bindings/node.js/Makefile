@@ -6,7 +6,6 @@ clean:
 	rm -f *.node
 	rm -f *.a
 	rm -f *.o
-	rm -rf node_modules
 
 build: src/kzg.cxx lib/kzg.ts package.json binding.gyp Makefile
 	yarn install
@@ -23,7 +22,7 @@ bundle: clean
 	cp README.md dist/README.md
 	cp package.json dist/package.json
 	cp binding.dist.gyp dist/binding.gyp
-	npx tsc -p tsconfig.build.json
+	node_modules/.bin/tsc -p tsconfig.build.json
 	cp -r src dist/src
 	mkdir -p dist/deps/c-kzg
 	cp -r ../../blst dist/deps
