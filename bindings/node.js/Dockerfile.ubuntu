@@ -1,0 +1,42 @@
+# Exists as a test harness for building and running tests in Linux
+
+FROM ubuntu:22.10
+RUN apt-get update && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash && \
+    apt-get -y install g++ make python3 valgrind curl nodejs npm clang
+RUN npm i -g yarn
+
+# Copy native dependencies
+COPY src /app/src
+COPY blst /app/blst
+COPY tests /app/tests
+RUN mkdir /app/inc
+
+# Build native dependencies
+WORKDIR /app/src
+RUN make blst
+RUN make
+RUN mkdir -p /app/bindings/node.js
+
+# Install node dependencies
+WORKDIR /app/bindings/node.js
+COPY bindings/node.js/package.json .
+RUN yarn install --ignore-scripts
+
+# # Copy bindings files
+# # note: copy files after running install to help keep
+# #       that step cached if files change during dev
+COPY bindings/node.js/lib lib
+COPY bindings/node.js/src src
+COPY bindings/node.js/test test
+COPY bindings/node.js/jest.config.js .
+COPY bindings/node.js/Makefile .
+COPY bindings/node.js/tsconfig.build.json .
+COPY bindings/node.js/tsconfig.json .
+COPY bindings/node.js/yarn.lock .
+COPY bindings/node.js/binding.dist.gyp .
+COPY bindings/node.js/binding.gyp .
+
+RUN yarn install
+
+CMD ["valgrind", "--leak-check=full", "node_modules/.bin/ts-jest"]
