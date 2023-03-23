@@ -29,6 +29,7 @@
       ],
       "conditions": [
         [ 'OS=="win"', {
+          "defines": ["_CRT_SECURE_NO_WARNINGS"],
           "msbuild_settings": {
             "ClCompile": {
               "LanguageStandard": "stdcpp17"
