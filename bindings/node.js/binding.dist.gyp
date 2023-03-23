@@ -3,7 +3,7 @@
     {
       "target_name": "kzg",
       "cflags!": ["-fno-exceptions"],
-      "cflags_cc!": ["-fno-exceptions"],
+      "cflags_cc!": ["-fno-exceptions", "-std=c++17"],
       "defines": [
         "NAPI_DISABLE_CPP_EXCEPTIONS",
         "FIELD_ELEMENTS_PER_BLOB=<!(echo ${FIELD_ELEMENTS_PER_BLOB:-4096})"
@@ -55,7 +55,6 @@
           ]
         }],
         [ 'OS=="linux"', {
-          "cflags_cc!": ["-std=c++17"],
           "actions": [
             {
               "action_name": "build_ckzg",
