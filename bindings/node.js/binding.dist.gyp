@@ -6,7 +6,6 @@
       "cflags_cc!": ["-fno-exceptions"],
       "defines": [
         "NAPI_DISABLE_CPP_EXCEPTIONS",
-        "_CRT_SECURE_NO_WARNINGS",
         "FIELD_ELEMENTS_PER_BLOB=<!(echo ${FIELD_ELEMENTS_PER_BLOB:-4096})"
       ],
       "sources": ["src/kzg.cxx"],
@@ -46,7 +45,8 @@
               "action": [
                 "clang",
                 "-I<(module_root_dir)/deps/blst/bindings",
-                "-DFIELD_ELEMENTS_PER_BLOB=4096",
+                "-D_CRT_SECURE_NO_WARNINGS",
+                "-DFIELD_ELEMENTS_PER_BLOB=4096", # TODO: This had the default value syntax and was invalid on windows
                 "-O2",
                 "-c",
                 "<(module_root_dir)/deps/c-kzg/c_kzg_4844.c"
