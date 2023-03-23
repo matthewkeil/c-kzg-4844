@@ -1,7 +1,7 @@
 # Exists as a test harness for building and running tests in Linux
 
 FROM node:16-alpine
-RUN apk update && apk add --no-cache g++ make python3 valgrind
+RUN apk update && apk add --no-cache g++ make python3 valgrind clang
 
 # WORKDIR /app
 COPY src /app/src
