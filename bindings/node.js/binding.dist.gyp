@@ -6,6 +6,7 @@
       "cflags_cc!": ["-fno-exceptions"],
       "defines": [
         "NAPI_DISABLE_CPP_EXCEPTIONS",
+        "_CRT_SECURE_NO_WARNINGS",
         "FIELD_ELEMENTS_PER_BLOB=<!(echo ${FIELD_ELEMENTS_PER_BLOB:-4096})"
       ],
       "sources": ["src/kzg.cxx"],
@@ -29,11 +30,10 @@
       ],
       "conditions": [
         [ 'OS=="win"', {
-          "defines": ["_CRT_SECURE_NO_WARNINGS"],
           "msbuild_settings": {
-            "ClCompile": {
-              "LanguageStandard": "stdcpp17"
-            }
+            "VCCLCompilerTool": {
+              "AdditionalOptions": [ "-std:c++17", ],
+            },
           },
           "actions": [
             {
