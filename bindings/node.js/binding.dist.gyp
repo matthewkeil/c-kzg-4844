@@ -3,7 +3,9 @@
     {
       "target_name": "kzg",
       "cflags!": ["-fno-exceptions"],
-      "cflags_cc!": ["-fno-exceptions", "-std=c++17"],
+      "cflags": ["-std=c++17"],
+      "cflags_cc!": ["-fno-exceptions"],
+      "cflags_cc": ["-std=c++17"],
       "defines": [
         "NAPI_DISABLE_CPP_EXCEPTIONS",
         "FIELD_ELEMENTS_PER_BLOB=<!(echo ${FIELD_ELEMENTS_PER_BLOB:-4096})"
@@ -30,9 +32,9 @@
       "conditions": [
         [ 'OS=="win"', {
           "msbuild_settings": {
-            "VCCLCompilerTool": {
-              "AdditionalOptions": [ "-std:c++17", ],
-            },
+            "ClCompile": {
+              "LanguageStandard": "stdcpp17"
+            }
           },
           "actions": [
             {
