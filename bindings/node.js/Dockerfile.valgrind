@@ -1,0 +1,75 @@
+# Exists as a test harness for building and running tests in Linux
+
+# FROM node:16-alpine
+# RUN apk update && apk add --no-cache g++ make python3 valgrind clang
+
+FROM ubuntu:22.10
+RUN apt-get update && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash && \
+    apt-get -y install g++ make python3 valgrind curl nodejs npm clang
+RUN npm install -g yarn
+
+# WORKDIR /app
+COPY src /app/src
+COPY blst /app/blst
+COPY tests /app/tests
+RUN mkdir /app/inc
+RUN mkdir -p /app/bindings/node.js
+COPY bindings/node.js/package.json /app/bindings/node.js/package.json
+
+WORKDIR /app/src
+RUN make blst
+RUN make c_kzg_4844.o
+RUN cp c_kzg_4844.o /app/bindings/node.js/c_kzg_4844.o
+
+WORKDIR /app/bindings/node.js
+COPY bindings/node.js/lib lib
+COPY bindings/node.js/src src
+COPY bindings/node.js/test test
+COPY bindings/node.js/.prettierignore .
+COPY bindings/node.js/.prettierrc.json .
+COPY bindings/node.js/binding.gyp .
+COPY bindings/node.js/jest.config.js .
+COPY bindings/node.js/Makefile .
+COPY bindings/node.js/package.json .
+COPY bindings/node.js/README.md .
+COPY bindings/node.js/tsconfig.build.json .
+COPY bindings/node.js/tsconfig.json .
+COPY bindings/node.js/yarn.lock .
+
+RUN make
+RUN yarn node-gyp rebuild --debug
+RUN node_modules/.bin/tsc \
+    --target esnext \
+    --module commonjs \
+    --pretty \
+    --strict \
+    --alwaysStrict \
+    --strictNullChecks \
+    --strictFunctionTypes \
+    --strictBindCallApply \
+    --strictPropertyInitialization \
+    --noImplicitAny \
+    --noImplicitThis \
+    --noImplicitReturns \
+    --declaration \
+    --sourceMap \
+    --declarationMap \
+    --esModuleInterop \
+    lib/kzg.ts
+    
+CMD ["valgrind", \
+    "--num-callers=40", \
+    "--error-markers=-------------------------,-------------------------", \
+    "--redzone-size=256", \
+    "--leak-check=yes", \
+    "--track-origins=yes", \
+    "--free-fill=0xaa", \
+    "--leak-check=full", \
+    "--error-limit=no", \
+    "--trace-children=yes", \
+    "--show-leak-kinds=definite,possible", \
+    "--gen-suppressions=all", \
+    "node", \
+    "test/leakCheck" \
+]
