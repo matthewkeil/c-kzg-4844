@@ -7,6 +7,11 @@
     "Matthew Keil <me@matthewkeil.com>"
   ],
   "license": "MIT",
+  "scripts": {
+    "dev": "ts-node scripts/dev",
+    "build:gyp:debug": "node-gyp build --debug",
+    "test": "jest"
+  },
   "dependencies": {
     "node-addon-api": "^5.0.0",
     "bindings": "^1.5.0"
@@ -15,6 +20,7 @@
     "@types/jest": "^29.2.1",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
+    "chokidar": "^3.6.0",
     "eslint": "^8.37.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
