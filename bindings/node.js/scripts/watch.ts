@@ -39,6 +39,9 @@ export async function watchFolder({
 
   const watcher = watch(path, opts);
   watcher.on("all", (event, filepath) => {
+    if (filepath.includes("trusted_setup.txt")) {
+      return;
+    }
     switch (event) {
       case "add":
         console.log(`file added: ${filepath}`);

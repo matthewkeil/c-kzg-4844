@@ -1,5 +1,8 @@
+import {exec as EXEC, ExecOptions, ChildProcess, PromiseWithChild} from "child_process";
 export interface ExecPromiseOptions extends ExecOptions {
   pipeInput?: boolean;
+  maxBuffer?: number;
+  timeout?: number;
 }
 
 const defaultOptions: ExecPromiseOptions = {
