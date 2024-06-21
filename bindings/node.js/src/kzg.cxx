@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string_view>
 
+using namespace std::string_literals;
+
 /**
  * Convert C_KZG_RET to a string representation for error messages.
  */
@@ -20,9 +22,7 @@ std::string from_c_kzg_ret(C_KZG_RET ret) {
     case C_KZG_RET::C_KZG_MALLOC:
         return "C_KZG_MALLOC";
     default:
-        std::ostringstream msg;
-        msg << "UNKNOWN (" << ret << ")";
-        return msg.str();
+        return "UNKNOWN ("s + std::to_string(ret) + ")"s;
     }
 }
 
@@ -128,16 +128,20 @@ inline uint8_t *get_bytes(
 ) {
     if (!val.IsTypedArray() ||
         val.As<Napi::TypedArray>().TypedArrayType() != napi_uint8_array) {
-        std::ostringstream msg;
-        msg << "Expected " << name << " to be a Uint8Array";
-        Napi::TypeError::New(env, msg.str()).ThrowAsJavaScriptException();
+        Napi::TypeError::New(
+            env, "Expected "s + std::string(name) + " to be a Uint8Array"s
+        )
+            .ThrowAsJavaScriptException();
         return nullptr;
     }
     Napi::Uint8Array array = val.As<Napi::Uint8Array>();
     if (array.ByteLength() != length) {
-        std::ostringstream msg;
-        msg << "Expected " << name << " to be " << length << " bytes";
-        Napi::TypeError::New(env, msg.str()).ThrowAsJavaScriptException();
+        Napi::TypeError::New(
+            env,
+            "Expected "s + std::string(name) + " to be " +
+                std::to_string(length) + " bytes"s
+        )
+            .ThrowAsJavaScriptException();
         return nullptr;
     }
     return array.Data();

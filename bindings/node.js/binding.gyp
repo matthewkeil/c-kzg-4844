@@ -14,7 +14,8 @@
       ],
       "defines": [
         "__BLST_PORTABLE__",
-        "NAPI_CPP_EXCEPTIONS"
+        "NAPI_CPP_EXCEPTIONS",
+        "NAPI_VERSION=8"
       ],
       "conditions": [
         ["OS!='win'", {
