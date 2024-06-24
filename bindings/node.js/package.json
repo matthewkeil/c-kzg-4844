@@ -36,6 +36,5 @@
   },
   "homepage": "https://github.com/ethereum/c-kzg-4844",
   "main": "lib/kzg.js",
-  "types": "lib/kzg.d.ts",
-  "gypfile": true
+  "types": "lib/kzg.d.ts"
 }

@@ -1,0 +1,23 @@
+{
+  "name": "c-kzg",
+  "version": "4.0.0-alpha.0",
+  "description": "NodeJS bindings for C-KZG",
+  "contributors": [
+    "Dan Coffman <dgcoffman@gmail.com>",
+    "Matthew Keil <me@matthewkeil.com>"
+  ],
+  "scripts": {
+    "install": "./scripts/node_install.sh"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethereum/c-kzg-4844.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ethereum/c-kzg-4844/issues"
+  },
+  "homepage": "https://github.com/ethereum/c-kzg-4844",
+  "main": "bindings/node.js/lib/kzg.js",
+  "types": "bindings/node.js/lib/kzg.d.ts"
+}
