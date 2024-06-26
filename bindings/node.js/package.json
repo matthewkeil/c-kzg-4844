@@ -11,7 +11,7 @@
     "clean": "rm -rf build deps *.node *.a *.o ref-tests",
     "preprepare": "mkdir -p deps/c-kzg",
     "prepare:kzg": "cp ../../src/c_kzg_4844.c deps/c-kzg && cp ../../src/c_kzg_4844.h deps/c-kzg && cp ../../src/trusted_setup.txt deps/c-kzg",
-    "prepare:blst": "sudo cp -r ../../blst deps/blst",
+    "prepare:blst": "cp -r ../../blst deps",
     "prepare": "yarn run prepare:kzg && yarn run prepare:blst",
     "build": "node-gyp build",
     "build:clean": "npm run clean && node-gyp configure && npm run build"
