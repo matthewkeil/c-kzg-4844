@@ -23,7 +23,7 @@ clean-install:
 # Installs typescript dependencies
 .PHONY: install
 install:
-	@$(YARN) install
+	@$(YARN) install --ignore-scripts
 
 # Cleans and rebuilds native dependencies, bindings and typescript wrapper
 .PHONY: build
