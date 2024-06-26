@@ -6,4 +6,4 @@ fi
 
 cd bindings/node.js
 
-make build
+yarn install
